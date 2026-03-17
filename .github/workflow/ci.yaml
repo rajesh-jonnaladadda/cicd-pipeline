@@ -1,11 +1,24 @@
----
-on: 
+name: Print Environment Variables
+
+on:
   push:
-    branch:
+    branches:
       - main
+
 jobs:
-  build:
+  print-env:
     runs-on: ubuntu-latest
+
     steps:
-      - name: helo
-        run: print env
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Print All Environment Variables
+        run: printenv
+
+      - name: Print Specific GitHub Variables
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit SHA: $GITHUB_SHA"
+          echo "Actor: $GITHUB_ACTOR"
