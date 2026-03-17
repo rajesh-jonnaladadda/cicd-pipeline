@@ -1,0 +1,11 @@
+---
+on: 
+  push:
+    branch:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: helo
+        run: print env
