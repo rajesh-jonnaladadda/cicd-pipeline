@@ -1,0 +1,37 @@
+name: Dotnet Build Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Clone Project
+        run: git clone https://github.com/Azure-Samples/dotnetcore-docs-hello-world.git
+
+      - name: Build Project
+        run: |
+          cd dotnetcore-docs-hello-world
+          dotnet build --configuration Release dotnetcoresample.csproj
+
+      - name: Publish Project
+        run: |
+          cd dotnetcore-docs-hello-world
+          dotnet publish --configuration Release -o ./published/ dotnetcoresample.csproj
+
+      - name: Create Tar File
+        run: |
+          cd dotnetcore-docs-hello-world
+          tar -cvzf dotnetcoresample.tar.gz ./published/
